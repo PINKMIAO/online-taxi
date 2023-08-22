@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author zbf
- * 2023/7/26 08:24
+ * @since 2023/7/26 08:24
  */
 @SpringBootApplication
 @MapperScan("com.bevan.servicemap.mapper")

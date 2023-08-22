@@ -23,7 +23,7 @@ public class MysqlGenerator {
                             "/Users/zhengbufeng/IdeaProjects/online-taxi-public/service-driver-user/src/main/java/com/bevan/servicedriveruser/mapper"));
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("car");
+                    builder.addInclude("driver_car_binding_relations");
                 })
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();

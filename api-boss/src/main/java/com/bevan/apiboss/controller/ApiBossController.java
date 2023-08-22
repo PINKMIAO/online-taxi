@@ -15,6 +15,11 @@ public class ApiBossController {
     @Autowired
     private ApiBossService apiBossService;
 
+    @GetMapping("/")
+    public String forTest() {
+        return "api-boss";
+    }
+
     @GetMapping("/user")
     public ResponseResult<DriverUser> getDriverUser() {
         return apiBossService.getDriverUser();

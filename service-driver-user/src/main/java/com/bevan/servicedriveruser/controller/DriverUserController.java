@@ -16,6 +16,11 @@ public class DriverUserController {
     @Autowired
     private DriverUserService driverUserService;
 
+    @GetMapping("/")
+    public String forTest() {
+        return "service-driver-user";
+    }
+
     @GetMapping("/user")
     public ResponseResult<DriverUser> getDriverInfo() {
         return driverUserService.getUserInfo();
