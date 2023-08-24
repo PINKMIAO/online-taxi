@@ -1,7 +1,7 @@
 package com.bevan.servicedriveruser.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bevan.internalcommon.model.DriverCarBindingRelation;
+import com.bevan.internalcommon.model.DriverCarBindingRelations;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2023-08-22
  */
 @Repository
-public interface DriverCarBindingRelationsMapper extends BaseMapper<DriverCarBindingRelation> {
+public interface DriverCarBindingRelationsMapper extends BaseMapper<DriverCarBindingRelations> {
 
 }

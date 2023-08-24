@@ -1,7 +1,7 @@
 package com.bevan.servicedriveruser.service;
 
 import com.bevan.internalcommon.dto.ResponseResult;
-import com.bevan.internalcommon.model.DriverCarBindingRelation;
+import com.bevan.internalcommon.model.DriverCarBindingRelations;
 import com.bevan.servicedriveruser.mapper.DriverCarBindingRelationsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DriverCarBindingRelationsService {
-
     @Autowired
     private DriverCarBindingRelationsMapper driverCarBindingRelationsMapper;
 
-    public ResponseResult addBind(DriverCarBindingRelation driverCarBindingRelation) {
-        driverCarBindingRelationsMapper.insert(driverCarBindingRelation);
+    public ResponseResult addBind(DriverCarBindingRelations driverCarBindingRelations) {
+        driverCarBindingRelations.setState(0);
+        driverCarBindingRelationsMapper.insert(driverCarBindingRelations);
         return ResponseResult.success();
     }
 

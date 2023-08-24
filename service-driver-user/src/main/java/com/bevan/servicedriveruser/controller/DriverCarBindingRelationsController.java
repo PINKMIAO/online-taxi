@@ -1,10 +1,11 @@
 package com.bevan.servicedriveruser.controller;
 
 import com.bevan.internalcommon.dto.ResponseResult;
-import com.bevan.internalcommon.model.DriverCarBindingRelation;
+import com.bevan.internalcommon.model.DriverCarBindingRelations;
 import com.bevan.servicedriveruser.service.DriverCarBindingRelationsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,8 +21,8 @@ public class DriverCarBindingRelationsController {
     @Autowired
     private DriverCarBindingRelationsService driverCarBindingRelationsService;
 
-    @GetMapping("/bind")
-    public ResponseResult addBind(DriverCarBindingRelation driverCarBindingRelation) {
-        return driverCarBindingRelationsService.addBind(driverCarBindingRelation);
+    @PostMapping("/bind")
+    public ResponseResult addBind(@RequestBody DriverCarBindingRelations driverCarBindingRelations) {
+        return driverCarBindingRelationsService.addBind(driverCarBindingRelations);
     }
 }

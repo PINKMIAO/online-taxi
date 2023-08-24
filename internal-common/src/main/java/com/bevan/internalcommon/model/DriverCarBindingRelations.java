@@ -6,15 +6,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
  * 司机与车辆绑定关系表
- * </p>
- *
  * @author bevan
  * @since 2023-08-22
  */
 @Data
-public class DriverCarBindingRelation implements Serializable {
+public class DriverCarBindingRelations implements Serializable {
     private Long id;
 
     /**
