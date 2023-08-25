@@ -1,6 +1,5 @@
 package com.bevan.internalcommon.constant;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -26,6 +25,20 @@ public enum CommonStatusEnum {
      * 计价规则：1300-1399
      */
     PRICE_RULE_EMPTY(1300, "计价规则不存在"),
+
+    /**
+     * 地图信息：1400-1499
+     */
+    Map_DISTRICT_ERROR(1400, "请求地图错误"),
+
+    /**
+     * 司机和车辆关系：1500-1599
+     */
+    DRIVER_CAR_BIND_NOT_EXISTS(1500, "司机与车辆绑定关系不存在"),
+
+    DRIVER_NOT_EXISTS(1501, "司机不存在"),
+
+    DRIVER_CAR_BIND_EXISTS(1502, "司机和车辆已绑定，请勿重复绑定"),
 
 
     SUCCESS(1, "success"),
