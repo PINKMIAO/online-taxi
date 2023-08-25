@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author zbf
@@ -25,11 +24,7 @@ public class DriverCarBindingRelationsService {
 
     public ResponseResult addBind(DriverCarBindingRelations driverCarBindingRelations) {
         LocalDateTime now = LocalDateTime.now();
-        Map<String, Object> query = new HashMap<>(16);
-        query.put("driver_id", driverCarBindingRelations.getDriverId());
-        query.put("car_id", driverCarBindingRelations.getCarId());
-        query.put("state", DriverCarConstants.DRIVER_CAR_BIND);
-        List<DriverCarBindingRelations> queryResults = driverCarBindingRelationsMapper.selectByMap(query);
+        List<DriverCarBindingRelations> queryResults = getRelationByDriverCarId(driverCarBindingRelations);
         if (!queryResults.isEmpty()) {
             return ResponseResult.fail(CommonStatusEnum.DRIVER_CAR_BIND_EXISTS.getCode(),
                     CommonStatusEnum.DRIVER_CAR_BIND_EXISTS.getValue());
@@ -42,7 +37,24 @@ public class DriverCarBindingRelationsService {
     }
 
     public ResponseResult unbind(DriverCarBindingRelations driverCarBindingRelations) {
+        LocalDateTime now = LocalDateTime.now();
+        List<DriverCarBindingRelations> queryResults = getRelationByDriverCarId(driverCarBindingRelations);
+        if (queryResults.isEmpty()) {
+            return ResponseResult.fail(CommonStatusEnum.DRIVER_CAR_BIND_NOT_EXISTS.getCode(),
+                    CommonStatusEnum.DRIVER_CAR_BIND_NOT_EXISTS.getValue());
+        }
 
+        driverCarBindingRelations.setUnBindingTime(now);
+        driverCarBindingRelations.setState(DriverCarConstants.DRIVER_CAR_UNBIND);
+        driverCarBindingRelationsMapper.updateById(driverCarBindingRelations);
         return ResponseResult.success();
+    }
+
+    public List<DriverCarBindingRelations> getRelationByDriverCarId(DriverCarBindingRelations driverCarBindingRelations) {
+        Map<String, Object> query = new HashMap<>(16);
+        query.put("driver_id", driverCarBindingRelations.getDriverId());
+        query.put("car_id", driverCarBindingRelations.getCarId());
+        query.put("state", DriverCarConstants.DRIVER_CAR_BIND);
+        return driverCarBindingRelationsMapper.selectByMap(query);
     }
 }
