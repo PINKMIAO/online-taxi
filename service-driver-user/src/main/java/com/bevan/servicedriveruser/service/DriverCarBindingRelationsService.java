@@ -43,10 +43,10 @@ public class DriverCarBindingRelationsService {
             return ResponseResult.fail(CommonStatusEnum.DRIVER_CAR_BIND_NOT_EXISTS.getCode(),
                     CommonStatusEnum.DRIVER_CAR_BIND_NOT_EXISTS.getValue());
         }
-
+        driverCarBindingRelations = queryResults.get(0);
         driverCarBindingRelations.setUnBindingTime(now);
         driverCarBindingRelations.setState(DriverCarConstants.DRIVER_CAR_UNBIND);
-        driverCarBindingRelationsMapper.updateById(driverCarBindingRelations);
+        int i = driverCarBindingRelationsMapper.updateById(driverCarBindingRelations);
         return ResponseResult.success();
     }
 
