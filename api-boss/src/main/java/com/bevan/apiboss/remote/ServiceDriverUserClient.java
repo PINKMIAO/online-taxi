@@ -1,6 +1,8 @@
 package com.bevan.apiboss.remote;
 
 import com.bevan.internalcommon.dto.ResponseResult;
+import com.bevan.internalcommon.model.Car;
+import com.bevan.internalcommon.model.DriverCarBindingRelations;
 import com.bevan.internalcommon.model.DriverUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,4 +39,35 @@ public interface ServiceDriverUserClient {
      */
     @PutMapping("/user")
     ResponseResult updateDriverUser(@RequestBody DriverUser driverUser);
+
+    /**
+     * 获取车辆信息（默认一台车辆）
+     * @return 车辆信息
+     */
+    @GetMapping("/car")
+    ResponseResult<Car> getCar();
+
+    /**
+     * 新增车辆
+     * @param car 车辆信息
+     * @return 响应结果
+     */
+    @PostMapping("/car")
+    ResponseResult addCar(@RequestBody Car car);
+
+    /**
+     * 新增司机与车辆绑定关系
+     * @param driverCarBindingRelations 关系信息
+     * @return 响应结果
+     */
+    @PostMapping("/bind")
+    ResponseResult addBind(@RequestBody DriverCarBindingRelations driverCarBindingRelations);
+
+    /**
+     * 解除司机与车辆绑定关系
+     * @param driverCarBindingRelations 关系信息
+     * @return 响应结果
+     */
+    @PostMapping("/unbind")
+    ResponseResult unBind(@RequestBody DriverCarBindingRelations driverCarBindingRelations);
 }

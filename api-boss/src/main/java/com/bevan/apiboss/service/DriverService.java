@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 2023/8/14 14:01
  */
 @Service
-public class ApiBossService {
+public class DriverService {
 
     @Autowired
     private ServiceDriverUserClient driverUserClient;
