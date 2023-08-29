@@ -25,10 +25,10 @@ public class PassengerUserService {
         HashMap<String, Object> map = new HashMap<>(16);
         map.put("passenger_phone", passengerPhone);
         List<PassengerUser> passengerUsers = passengerUserMapper.selectByMap(map);
-        System.out.println(passengerUsers.size() == 0 ? "无记录" : passengerUsers.get(0).getPassengerName());
+        System.out.println(passengerUsers.isEmpty() ? "无记录" : passengerUsers.get(0).getPassengerName());
 
         // 判断用户信息是否存在
-        if (passengerUsers.size() == 0) {
+        if (passengerUsers.isEmpty()) {
             // 如果不存在，插入用户信息
             PassengerUser passengerUser = new PassengerUser();
             passengerUser.setPassengerGender((byte) 0);
@@ -45,7 +45,7 @@ public class PassengerUserService {
         HashMap<String, Object> map = new HashMap<>(16);
         map.put("passenger_phone", passengerPhone);
         List<PassengerUser> passengerUsers = passengerUserMapper.selectByMap(map);
-        if (passengerUsers.size() == 0) {
+        if (passengerUsers.isEmpty()) {
             return ResponseResult.fail(CommonStatusEnum.USER_NOT_EXISTS.getCode(), CommonStatusEnum.USER_NOT_EXISTS.getValue());
         }
         return ResponseResult.success(passengerUsers.get(0));

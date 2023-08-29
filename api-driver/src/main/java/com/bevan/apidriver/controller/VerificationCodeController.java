@@ -1,9 +1,9 @@
-package com.bevan.apipassenger.controller;
+package com.bevan.apidriver.controller;
 
-import com.bevan.internalcommon.responese.TokenResponse;
-import com.bevan.internalcommon.dto.VerificationCodeDto;
-import com.bevan.apipassenger.service.VerificationCodeService;
+import com.bevan.apidriver.service.VerificationCodeService;
 import com.bevan.internalcommon.dto.ResponseResult;
+import com.bevan.internalcommon.dto.VerificationCodeDto;
+import com.bevan.internalcommon.responese.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ public class VerificationCodeController {
     @Autowired
     VerificationCodeService verificationCodeService;
 
-    @GetMapping("/verification-code")
+    @GetMapping("/verification-code/")
     public ResponseResult<Integer> getVerificationCode(@RequestBody VerificationCodeDto dto) {
         System.out.println(dto.getPassengerPhone());
         return verificationCodeService.generatorCode(dto.getPassengerPhone());

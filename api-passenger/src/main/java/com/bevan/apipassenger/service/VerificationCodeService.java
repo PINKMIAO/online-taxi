@@ -64,7 +64,6 @@ public class VerificationCodeService {
 
         // 颁发令牌 使用jwt => json web token 官网 jwt.io
         System.out.println("颁发令牌");
-        // 不准使用魔法值，所以写了常量来区别
         String accessToken = JwtUtils.generatorToken(passengerPhone, IdentityConstants.PASSENGER_IDENTITY,
                 TokenConstants.ACCESS_TOKEN_TYPE);
         String refreshToken = JwtUtils.generatorToken(passengerPhone, IdentityConstants.PASSENGER_IDENTITY,

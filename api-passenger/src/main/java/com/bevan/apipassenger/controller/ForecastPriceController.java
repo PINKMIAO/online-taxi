@@ -1,6 +1,5 @@
 package com.bevan.apipassenger.controller;
 
-import com.bevan.apipassenger.remote.ServicePriceClient;
 import com.bevan.apipassenger.service.ForecastPriceService;
 import com.bevan.internalcommon.dto.ResponseResult;
 import com.bevan.internalcommon.dto.ForecastPriceDto;

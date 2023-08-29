@@ -16,12 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DriverUserController {
 
-    @GetMapping("/")
+    @GetMapping("/forTest")
     public String forTest() {
-        return "api-driver";
-    }
-    @GetMapping("/sum")
-    public String for1Test() {
         return "api-driver";
     }
 

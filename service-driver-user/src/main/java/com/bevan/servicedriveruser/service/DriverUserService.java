@@ -1,5 +1,7 @@
 package com.bevan.servicedriveruser.service;
 
+import com.bevan.internalcommon.constant.CommonStatusEnum;
+import com.bevan.internalcommon.constant.DriverCarConstants;
 import com.bevan.internalcommon.dto.ResponseResult;
 import com.bevan.internalcommon.model.DriverUser;
 import com.bevan.servicedriveruser.mapper.DriverUserMapper;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author zbf
@@ -34,5 +38,17 @@ public class DriverUserService {
     public ResponseResult updateDriver(DriverUser driverUser) {
         driverUserMapper.updateById(driverUser);
         return ResponseResult.success();
+    }
+
+    public ResponseResult<DriverUser> getUserByPhone(String driverPhone) {
+        HashMap<String, Object> queryMap = new HashMap<>();
+        queryMap.put("driver_phone", driverPhone);
+        queryMap.put("state", DriverCarConstants.DRIVER_STATE_VALID);
+        List<DriverUser> driverUsers = driverUserMapper.selectByMap(queryMap);
+        if (driverUsers.isEmpty()) {
+            return ResponseResult.fail(CommonStatusEnum.DRIVER_NOT_EXISTS.getCode(), CommonStatusEnum.DRIVER_NOT_EXISTS.getValue());
+        }
+
+        return ResponseResult.success(driverUsers.get(0));
     }
 }
