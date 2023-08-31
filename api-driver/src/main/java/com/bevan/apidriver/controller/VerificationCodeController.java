@@ -19,10 +19,10 @@ public class VerificationCodeController {
     @Autowired
     VerificationCodeService verificationCodeService;
 
-    @GetMapping("/verification-code/")
+    @GetMapping("/verification-code")
     public ResponseResult<Integer> getVerificationCode(@RequestBody VerificationCodeDto dto) {
-        System.out.println(dto.getPassengerPhone());
-        return verificationCodeService.generatorCode(dto.getPassengerPhone());
+        System.out.println(dto.getDriverPhone());
+        return verificationCodeService.generatorCode(dto.getDriverPhone());
     }
 
     @PostMapping("/verification-code-check")
@@ -32,10 +32,5 @@ public class VerificationCodeController {
 
         System.out.println("phone: " + passengerPhone + ", code: " + verificationCode);
         return verificationCodeService.checkCode(passengerPhone, verificationCode);
-    }
-
-    @GetMapping("/forTest")
-    public String forTest() {
-        return "api-passenger";
     }
 }

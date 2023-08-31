@@ -45,8 +45,15 @@ public class DriverUserController {
         DriverUser driverUser = queryResult.getData();
 
         DriverUserExistsResponse driverUserExistsResponse = new DriverUserExistsResponse();
-        driverUserExistsResponse.setDriverPhone(driverUser.getDriverPhone());
-        driverUserExistsResponse.setIsExists(1);
+        int isExists = 1;
+        if (null == driverUser) {
+            isExists = 0;
+            driverUserExistsResponse.setDriverPhone(driverPhone);
+            driverUserExistsResponse.setIsExists(isExists);
+        } else {
+            driverUserExistsResponse.setDriverPhone(driverUser.getDriverPhone());
+            driverUserExistsResponse.setIsExists(isExists);
+        }
         return ResponseResult.success(driverUserExistsResponse);
     }
 }

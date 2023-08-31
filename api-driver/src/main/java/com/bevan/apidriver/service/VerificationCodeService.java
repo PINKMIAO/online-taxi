@@ -1,13 +1,14 @@
 package com.bevan.apidriver.service;
 
-import com.bevan.internalcommon.constant.CommonStatusEnum;
-import com.bevan.internalcommon.constant.IdentityConstants;
-import com.bevan.internalcommon.constant.TokenConstants;
+import com.bevan.apidriver.remote.ServiceDriverUserClient;
+import com.bevan.apidriver.remote.ServiceVerificationCodeClient;
 import com.bevan.internalcommon.dto.ResponseResult;
-import com.bevan.internalcommon.dto.VerificationCodeDto;
+import com.bevan.internalcommon.responese.DriverUserExistsResponse;
 import com.bevan.internalcommon.responese.NumberCodeResponse;
 import com.bevan.internalcommon.responese.TokenResponse;
+import com.bevan.internalcommon.util.RedisPreFixUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -18,28 +19,33 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class VerificationCodeService {
-    // @Autowired
-    // private ServiceVerificationCodeClient serviceVerificationCodeClient;
-    // @Autowired
-    // private ServicePassengerUserClient servicePassengerUserClient;
+    @Autowired
+    private ServiceVerificationCodeClient serviceVerificationCodeClient;
+    @Autowired
+    private ServiceDriverUserClient serviceDriverUserClient;
 
     //官方推荐，如果kv是字符串的，就用这个StringRedisTemplate；如果是非字符串的就用RedisTemplate
-    // @Autowired
-    // private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     public ResponseResult<Integer> generatorCode(String driverPhone) {
-        // ResponseResult<NumberCodeResponse> response = serviceVerificationCodeClient.getNumberCode(6);
-        // System.out.println("remote result: " + response.getData().getNumberCode());
-        // int numberCode = response.getData().getNumberCode();
+        ResponseResult<DriverUserExistsResponse> userByPhone = serviceDriverUserClient.getUserByPhone(driverPhone);
+        DriverUserExistsResponse driverUserDb = userByPhone.getData();
+        int isExists = driverUserDb.getIsExists();
+        String driverPhoneDb = driverUserDb.getDriverPhone();
+
+
+        ResponseResult<NumberCodeResponse> response = serviceVerificationCodeClient.getNumberCode(6);
+        System.out.println("remote result: " + response.getData().getNumberCode());
+        int numberCode = response.getData().getNumberCode();
 
         // 存入redis
-        // String key = RedisPreFixUtils.generatorKeyPhone(passengerPhone);
-        // stringRedisTemplate.opsForValue().set(key, String.valueOf(numberCode), 2, TimeUnit.MINUTES);
+        String key = RedisPreFixUtils.generatorKeyByDriverPhone(driverPhone);
+        stringRedisTemplate.opsForValue().set(key, String.valueOf(numberCode), 2, TimeUnit.MINUTES);
         //
         // // 通过短信-发送短信到手机上
         //
-        // return ResponseResult.success(numberCode);
-        return ResponseResult.success(driverPhone);
+        return ResponseResult.success(numberCode);
     }
 
     public ResponseResult<TokenResponse> checkCode(String driverPhone, String verificationCode) {

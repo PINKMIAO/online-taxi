@@ -3,7 +3,7 @@ package com.bevan.apipassenger.service;
 import com.bevan.apipassenger.remote.ServicePassengerUserClient;
 import com.bevan.apipassenger.remote.ServiceVerificationCodeClient;
 import com.bevan.apipassenger.util.JwtUtils;
-import com.bevan.apipassenger.util.RedisPreFixUtils;
+import com.bevan.internalcommon.util.RedisPreFixUtils;
 import com.bevan.internalcommon.constant.CommonStatusEnum;
 import com.bevan.internalcommon.constant.IdentityConstants;
 import com.bevan.internalcommon.constant.TokenConstants;
@@ -38,7 +38,7 @@ public class VerificationCodeService {
         int numberCode = response.getData().getNumberCode();
 
         // 存入redis
-        String key = RedisPreFixUtils.generatorKeyPhone(passengerPhone);
+        String key = RedisPreFixUtils.generatorKeyByPassengerPhone(passengerPhone);
         stringRedisTemplate.opsForValue().set(key, String.valueOf(numberCode), 2, TimeUnit.MINUTES);
 
         // 通过短信-发送短信到手机上
@@ -48,7 +48,7 @@ public class VerificationCodeService {
 
     public ResponseResult<TokenResponse> checkCode(String passengerPhone, String verificationCode) {
         // 根据手机号 获取redis里面的验证码
-        String key = RedisPreFixUtils.generatorKeyPhone(passengerPhone);
+        String key = RedisPreFixUtils.generatorKeyByPassengerPhone(passengerPhone);
         String value = stringRedisTemplate.opsForValue().get(key);
         System.out.println("获取redis验证码：" + value);
         // 校验验证码
