@@ -27,10 +27,10 @@ public class VerificationCodeController {
 
     @PostMapping("/verification-code-check")
     public ResponseResult<TokenResponse> checkVerificationCode(@RequestBody VerificationCodeDto dto) {
-        String passengerPhone = dto.getPassengerPhone();
+        String driverPhone = dto.getDriverPhone();
         String verificationCode = dto.getVerificationCode();
 
-        System.out.println("phone: " + passengerPhone + ", code: " + verificationCode);
-        return verificationCodeService.checkCode(passengerPhone, verificationCode);
+        System.out.println("phone: " + driverPhone + ", code: " + verificationCode);
+        return verificationCodeService.checkCode(driverPhone, verificationCode);
     }
 }
