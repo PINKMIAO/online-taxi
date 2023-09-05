@@ -4,10 +4,12 @@ import com.bevan.apidriver.remote.ServiceDriverUserClient;
 import com.bevan.apidriver.remote.ServiceVerificationCodeClient;
 import com.bevan.internalcommon.constant.CommonStatusEnum;
 import com.bevan.internalcommon.constant.IdentityConstants;
+import com.bevan.internalcommon.constant.TokenConstants;
 import com.bevan.internalcommon.dto.ResponseResult;
 import com.bevan.internalcommon.responese.DriverUserExistsResponse;
 import com.bevan.internalcommon.responese.NumberCodeResponse;
 import com.bevan.internalcommon.responese.TokenResponse;
+import com.bevan.internalcommon.util.JwtUtils;
 import com.bevan.internalcommon.util.RedisPreFixUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -33,9 +35,11 @@ public class VerificationCodeService {
     public ResponseResult<Integer> generatorCode(String driverPhone) {
         ResponseResult<DriverUserExistsResponse> userByPhone = serviceDriverUserClient.getUserByPhone(driverPhone);
         DriverUserExistsResponse driverUserDb = userByPhone.getData();
-        int isExists = driverUserDb.getIsExists();
         String driverPhoneDb = driverUserDb.getDriverPhone();
+        if (!driverUserDb.getIsExists()) {
+            return ResponseResult.fail(CommonStatusEnum.DRIVER_NOT_EXISTS.getCode(), CommonStatusEnum.DRIVER_NOT_EXISTS.getValue());
 
+        }
 
         ResponseResult<NumberCodeResponse> response = serviceVerificationCodeClient.getNumberCode(6);
         System.out.println("remote result: " + response.getData().getNumberCode());
@@ -54,36 +58,30 @@ public class VerificationCodeService {
         // 根据手机号 获取redis里面的验证码
         String key = RedisPreFixUtils.generatorKeyByPhone(driverPhone, IdentityConstants.DRIVER_IDENTITY);
         String value = stringRedisTemplate.opsForValue().get(key);
-        System.out.println("获取redis验证码：" + value);
+        System.out.println("获取redis中的验证码：" + value);
         // 校验验证码
         if (null == value || !verificationCode.trim().equals(value.trim())) {
             return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(),
                     CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
         }
-        //
-        // // 判断原来是否有用户（按照目前这样，无论是否有，也都没有做结果处理），主要意思是无论是否有库里都要有这个手机账号
-        // VerificationCodeDto verificationCodeDto = new VerificationCodeDto();
-        // verificationCodeDto.setPassengerPhone(passengerPhone);
-        // servicePassengerUserClient.loginOrRegister(verificationCodeDto);
-        //
-        // // 颁发令牌 使用jwt => json web token 官网 jwt.io
-        // System.out.println("颁发令牌");
-        // String accessToken = JwtUtils.generatorToken(passengerPhone, IdentityConstants.PASSENGER_IDENTITY,
-        //         TokenConstants.ACCESS_TOKEN_TYPE);
-        // String refreshToken = JwtUtils.generatorToken(passengerPhone, IdentityConstants.PASSENGER_IDENTITY,
-        //         TokenConstants.REFRESH_TOKEN_TYPE);
 
-        // String accessTokenKey = RedisPreFixUtils.generatorTokenKey(passengerPhone, IdentityConstants.PASSENGER_IDENTITY,
-        //         TokenConstants.ACCESS_TOKEN_TYPE);
-        // stringRedisTemplate.opsForValue().set(accessTokenKey, accessToken, 30, TimeUnit.DAYS);
-        // String refreshTokenKey = RedisPreFixUtils.generatorTokenKey(passengerPhone, IdentityConstants.PASSENGER_IDENTITY,
-        //         TokenConstants.REFRESH_TOKEN_TYPE);
-        // stringRedisTemplate.opsForValue().set(refreshTokenKey, refreshToken, 31, TimeUnit.DAYS);
-        //
-        // TokenResponse tokenResponse = new TokenResponse();
-        // tokenResponse.setAccessToken(accessToken);
-        // tokenResponse.setRefreshToken(refreshToken);
-        // return ResponseResult.success(tokenResponse);
-        return ResponseResult.success(driverPhone);
+        // 颁发令牌 使用jwt => json web token 官网 jwt.io
+        System.out.println("颁发令牌");
+        String accessToken = JwtUtils.generatorToken(driverPhone, IdentityConstants.PASSENGER_IDENTITY,
+                TokenConstants.ACCESS_TOKEN_TYPE);
+        String refreshToken = JwtUtils.generatorToken(driverPhone, IdentityConstants.PASSENGER_IDENTITY,
+                TokenConstants.REFRESH_TOKEN_TYPE);
+
+        String accessTokenKey = RedisPreFixUtils.generatorTokenKey(driverPhone, IdentityConstants.PASSENGER_IDENTITY,
+                TokenConstants.ACCESS_TOKEN_TYPE);
+        stringRedisTemplate.opsForValue().set(accessTokenKey, accessToken, 30, TimeUnit.DAYS);
+        String refreshTokenKey = RedisPreFixUtils.generatorTokenKey(driverPhone, IdentityConstants.PASSENGER_IDENTITY,
+                TokenConstants.REFRESH_TOKEN_TYPE);
+        stringRedisTemplate.opsForValue().set(refreshTokenKey, refreshToken, 31, TimeUnit.DAYS);
+
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setAccessToken(accessToken);
+        tokenResponse.setRefreshToken(refreshToken);
+        return ResponseResult.success(tokenResponse);
     }
 }

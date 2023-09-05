@@ -10,5 +10,5 @@ import lombok.Data;
 public class DriverUserExistsResponse {
     private String driverPhone;
 
-    private int isExists;
+    private Boolean isExists;
 }

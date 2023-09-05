@@ -1,7 +1,7 @@
 package com.bevan.apipassenger.service;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.bevan.apipassenger.util.JwtUtils;
+import com.bevan.internalcommon.util.JwtUtils;
 import com.bevan.internalcommon.util.RedisPreFixUtils;
 import com.bevan.internalcommon.constant.CommonStatusEnum;
 import com.bevan.internalcommon.constant.TokenConstants;

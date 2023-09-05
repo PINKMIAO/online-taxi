@@ -2,7 +2,7 @@ package com.bevan.apipassenger.service;
 
 import com.bevan.apipassenger.remote.ServicePassengerUserClient;
 import com.bevan.apipassenger.remote.ServiceVerificationCodeClient;
-import com.bevan.apipassenger.util.JwtUtils;
+import com.bevan.internalcommon.util.JwtUtils;
 import com.bevan.internalcommon.util.RedisPreFixUtils;
 import com.bevan.internalcommon.constant.CommonStatusEnum;
 import com.bevan.internalcommon.constant.IdentityConstants;

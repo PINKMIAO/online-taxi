@@ -1,7 +1,7 @@
 package com.bevan.apipassenger.controller;
 
 import com.bevan.apipassenger.service.UserService;
-import com.bevan.apipassenger.util.JwtUtils;
+import com.bevan.internalcommon.util.JwtUtils;
 import com.bevan.internalcommon.dto.ResponseResult;
 import com.bevan.internalcommon.responese.TokenResult;
 import org.springframework.beans.factory.annotation.Autowired;

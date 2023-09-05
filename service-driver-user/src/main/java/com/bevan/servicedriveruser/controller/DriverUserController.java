@@ -7,9 +7,7 @@ import com.bevan.servicedriveruser.service.DriverUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-/**
+ /**
  * @author zbf
  * 2023/8/14 07:35
  */
@@ -45,9 +43,9 @@ public class DriverUserController {
         DriverUser driverUser = queryResult.getData();
 
         DriverUserExistsResponse driverUserExistsResponse = new DriverUserExistsResponse();
-        int isExists = 1;
+        boolean isExists = true;
         if (null == driverUser) {
-            isExists = 0;
+            isExists = false;
             driverUserExistsResponse.setDriverPhone(driverPhone);
             driverUserExistsResponse.setIsExists(isExists);
         } else {

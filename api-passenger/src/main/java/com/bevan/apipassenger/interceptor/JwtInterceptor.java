@@ -1,7 +1,7 @@
 package com.bevan.apipassenger.interceptor;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.bevan.apipassenger.util.JwtUtils;
+import com.bevan.internalcommon.util.JwtUtils;
 import com.bevan.internalcommon.util.RedisPreFixUtils;
 import com.bevan.internalcommon.constant.TokenConstants;
 import com.bevan.internalcommon.dto.ResponseResult;

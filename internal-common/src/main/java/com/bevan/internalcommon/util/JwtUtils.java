@@ -1,4 +1,4 @@
-package com.bevan.apipassenger.util;
+package com.bevan.internalcommon.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
